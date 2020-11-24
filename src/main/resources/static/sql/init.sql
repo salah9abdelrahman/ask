@@ -1,7 +1,8 @@
 insert into role
 (role)
-VALUES ('ADMIN');
+VALUES ('ROLE_ADMIN');
 
 insert into role
 (role)
-VALUES ('REGULAR');
+VALUES ('ROLE_REGULAR');
+

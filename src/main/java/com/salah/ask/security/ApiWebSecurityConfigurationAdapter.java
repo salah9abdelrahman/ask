@@ -1,5 +1,6 @@
 package com.salah.ask.security;
 
+import com.salah.ask.model.user.UserRoles;
 import com.salah.ask.security.jwt.JwtRequestFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -54,7 +55,7 @@ public class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAda
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/register").permitAll()
-                .antMatchers("/test").hasAuthority("REGULAR")
+                .antMatchers("/test").hasRole(UserRoles.ROLE_REGULAR.toString().substring(5))
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
                 .authenticationEntryPoint((req, rsp, e) ->

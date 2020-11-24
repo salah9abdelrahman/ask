@@ -25,7 +25,7 @@ public class RegisterServiceImp implements RegisterService {
 
     @Override
     public AuthResponse register(RegisterRequest registerRequest) {
-        Role role = roleRepository.findByRole(UserRoles.REGULAR);
+        Role role = roleRepository.findByRole(UserRoles.ROLE_REGULAR);
         System.out.println("role");
         System.out.println(role);
         User user = new User()

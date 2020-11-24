@@ -1,5 +1,5 @@
 package com.salah.ask.model.user;
 
 public enum UserRoles {
-    ADMIN, REGULAR
+    ROLE_ADMIN, ROLE_REGULAR
 }
