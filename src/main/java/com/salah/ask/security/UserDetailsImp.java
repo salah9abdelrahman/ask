@@ -2,6 +2,7 @@ package com.salah.ask.security;
 
 import com.salah.ask.model.user.User;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,7 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 @NoArgsConstructor
-
+@ToString
 public class UserDetailsImp implements UserDetails {
 
     private String email;
@@ -19,6 +20,7 @@ public class UserDetailsImp implements UserDetails {
     private String userLName;
     private String password;
     private boolean isActive;
+    private boolean isEnabled;
     private List<GrantedAuthority> authorities;
 
 
@@ -29,11 +31,13 @@ public class UserDetailsImp implements UserDetails {
         this.password = user.getPassword();
         this.email = user.getEmail();
         this.isActive = user.isActive();
+        this.isEnabled = user.isEnabled();
         this.authorities = new ArrayList<>();
          user.getRoles().forEach(role ->
                  this.authorities.add(new SimpleGrantedAuthority(role.getRole().name())));
 //        this.authorities = user.get
     }
+
 
 
 
@@ -71,6 +75,6 @@ public class UserDetailsImp implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return isActive;
+        return isEnabled;
     }
 }

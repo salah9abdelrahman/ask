@@ -5,25 +5,24 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 @Setter
 @Getter
 @Accessors(chain = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LoginRequest {
-
-    public LoginRequest(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
-
-    @NotNull
-    @NotEmpty
+public class RegisterRequest {
+    @NotBlank
+    @Email
     private String email;
 
-    @NotNull
-    @NotEmpty
+    @NotBlank
     private String password;
+
+    @NotBlank
+    private String firstName;
+
+    @NotBlank
+    private String lastName;
 }

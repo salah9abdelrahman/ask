@@ -5,15 +5,19 @@ import com.salah.ask.model.ask.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
+import java.util.HashSet;
+
 @Setter
 @Getter
 @Accessors(chain = true)
 @NoArgsConstructor
+@ToString
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "`User`",
@@ -25,11 +29,11 @@ public class User {
     private Long id;
 
     @Column(name = "email")
-    @NotNull
+    @NotBlank
     private String email;
 
     @Column(name = "password")
-    @NotNull
+    @NotBlank
     private String password;
 
     @Column(name = "first_name")
@@ -44,7 +48,10 @@ public class User {
     @Column(name = "is_active")
     private boolean isActive;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Column(name = "is_enabled")
+    private boolean isEnabled;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
@@ -55,6 +62,13 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Collection<Post> posts;
+
+    public void addRole (Role role){
+        if(roles == null){
+            roles = new HashSet<>();
+        }
+        roles.add(role);
+    }
 
     public String getFullName() {
         return firstName != null ? firstName.concat(" ").concat(lastName) : "";
