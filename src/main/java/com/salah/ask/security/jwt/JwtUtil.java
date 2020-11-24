@@ -11,13 +11,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import static com.salah.ask.security.SecurityConstraints.EXPIRATION_TIME;
+import static com.salah.ask.security.SecurityConstraints.SECRET_KEY;
+
 /*
 create new jwts & get information of jwt payload
  */
 @Component
 public class JwtUtil {
-    private String SECRET_KEY = "sfceoiweiscas";
-    long EXPIRATION_TIME = 864_000_000; // 10 days
 
 
 
@@ -36,7 +37,7 @@ public class JwtUtil {
         return claimsResolver.apply(claims);
     }
     private Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+            return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     }
 
     private Boolean isTokenExpired(String token) {

@@ -23,8 +23,6 @@ public class UserDetailsImp implements UserDetails {
     private boolean isEnabled;
     private List<GrantedAuthority> authorities;
 
-
-
     public UserDetailsImp(User user) {
         this.userFName = user.getFirstName();
         this.userLName = user.getLastName();
@@ -35,12 +33,7 @@ public class UserDetailsImp implements UserDetails {
         this.authorities = new ArrayList<>();
          user.getRoles().forEach(role ->
                  this.authorities.add(new SimpleGrantedAuthority(role.getRole().name())));
-//        this.authorities = user.get
     }
-
-
-
-
 
 
     @Override

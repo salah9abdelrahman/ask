@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.management.relation.RoleNotFoundException;
 import javax.validation.Valid;
 
 @RestController
@@ -22,7 +23,8 @@ public class RegisterController {
     }
 
     @PostMapping
-    public ResponseEntity<?> register(@RequestBody @Valid RegisterRequest registerRequest){
+    public ResponseEntity<?> register(@RequestBody @Valid RegisterRequest registerRequest) throws RoleNotFoundException {
+
         return ResponseEntity.ok(registerService.register(registerRequest));
 
     }

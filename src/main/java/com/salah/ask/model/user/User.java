@@ -51,7 +51,8 @@ public class User {
     @Column(name = "is_enabled")
     private boolean isEnabled;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
+            fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
@@ -63,8 +64,8 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Collection<Post> posts;
 
-    public void addRole (Role role){
-        if(roles == null){
+    public void addRole(Role role) {
+        if (roles == null) {
             roles = new HashSet<>();
         }
         roles.add(role);

@@ -58,9 +58,7 @@ public class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAda
                 .antMatchers("/test").hasRole(UserRoles.ROLE_REGULAR.toString().substring(5))
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
-                .authenticationEntryPoint((req, rsp, e) ->
-                    rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED)
-                )
+                .authenticationEntryPoint((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED))
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

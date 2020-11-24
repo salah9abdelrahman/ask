@@ -1,5 +1,6 @@
 package com.salah.ask.security.jwt;
 
+import com.salah.ask.exception.custom.InvalidJwtException;
 import com.salah.ask.security.UserDetailsServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -32,12 +33,17 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
+                                    FilterChain filterChain) throws ServletException, IOException {
         final String authorizationHeader = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
         String userName = null, jwt = null;
         if ((authorizationHeader != null) && (authorizationHeader.startsWith("Bearer "))) {
             jwt = authorizationHeader.substring(7);
-            userName = jwtUtil.extractUsername(jwt);
+            try {
+                userName = jwtUtil.extractUsername(jwt);
+            } catch (Exception e){
+                throw new InvalidJwtException("Un authorized");
+            }
         }
         if (userName != null) {
             UserDetails userDetails = this.userDetailsServiceImp.loadUserByUsername(userName);
@@ -47,6 +53,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
+
         }
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
