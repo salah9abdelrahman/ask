@@ -20,7 +20,7 @@ public class UserDetailsImp implements UserDetails {
     private String userLName;
     private String password;
     private boolean isActive;
-    private boolean isEnabled;
+    private Boolean isEnabled;
     private List<GrantedAuthority> authorities;
 
     public UserDetailsImp(User user) {
@@ -29,7 +29,7 @@ public class UserDetailsImp implements UserDetails {
         this.password = user.getPassword();
         this.email = user.getEmail();
         this.isActive = user.isActive();
-        this.isEnabled = user.isEnabled();
+        this.isEnabled = user.getIsEnabled();
         this.authorities = new ArrayList<>();
          user.getRoles().forEach(role ->
                  this.authorities.add(new SimpleGrantedAuthority(role.getRole().name())));

@@ -49,7 +49,7 @@ public class User {
     private boolean isActive;
 
     @Column(name = "is_enabled")
-    private boolean isEnabled;
+    private Boolean isEnabled;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
             fetch = FetchType.EAGER)
@@ -61,8 +61,10 @@ public class User {
     @OneToMany(mappedBy = "friend", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Collection<Friendship> friends;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
     private Collection<Post> posts;
+
+
 
     public void addRole(Role role) {
         if (roles == null) {
@@ -74,4 +76,5 @@ public class User {
     public String getFullName() {
         return firstName != null ? firstName.concat(" ").concat(lastName) : "";
     }
+
 }

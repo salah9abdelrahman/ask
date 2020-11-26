@@ -37,11 +37,11 @@ public class RegisterServiceImp implements RegisterService {
         System.out.println(role);
         User user = new User()
                 .setActive(false)
-                .setEnabled(true)
                 .setEmail(registerRequest.getEmail())
                 .setFirstName(registerRequest.getFirstName())
                 .setLastName(registerRequest.getLastName())
-                .setPassword(new BCryptPasswordEncoder().encode(registerRequest.getPassword()));
+                .setPassword(new BCryptPasswordEncoder().encode(registerRequest.getPassword()))
+                .setIsEnabled(true);
 
         user.addRole(role.get());
         userRepository.save(user);

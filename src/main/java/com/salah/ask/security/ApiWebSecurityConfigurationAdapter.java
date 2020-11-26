@@ -57,10 +57,9 @@ public class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAda
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/register").permitAll()
-                .antMatchers("/test").hasRole(UserRoles.ROLE_REGULAR.toString().substring(5))
+                .antMatchers("/dashboard/**").hasRole(adminRole())
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
-                // throw exception if not authenticated
                 .authenticationEntryPoint((req, rsp, e) -> {
                     log.info("Not authorized user");
                     rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
@@ -75,7 +74,13 @@ public class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAda
 
     }
 
+    private String regularRole(){
+       return UserRoles.ROLE_REGULAR.name().substring(5);
+    }
 
+    private String adminRole(){
+        return UserRoles.ROLE_ADMIN.name().substring(5);
+    }
 
 }
 
