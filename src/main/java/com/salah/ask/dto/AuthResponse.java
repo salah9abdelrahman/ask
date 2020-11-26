@@ -1,4 +1,4 @@
-package com.salah.ask.controller.request;
+package com.salah.ask.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;

@@ -1,7 +1,7 @@
 package com.salah.ask.security.jwt;
 
-import com.salah.ask.exception.custom.InvalidJwtException;
 import com.salah.ask.security.UserDetailsServiceImp;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,11 +39,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String userName = null, jwt = null;
         if ((authorizationHeader != null) && (authorizationHeader.startsWith("Bearer "))) {
             jwt = authorizationHeader.substring(7);
-            try {
-                userName = jwtUtil.extractUsername(jwt);
-            } catch (Exception e){
-                throw new InvalidJwtException("Un authorized");
-            }
+            userName = jwtUtil.extractUsername(jwt);
+
         }
         if (userName != null) {
             UserDetails userDetails = this.userDetailsServiceImp.loadUserByUsername(userName);

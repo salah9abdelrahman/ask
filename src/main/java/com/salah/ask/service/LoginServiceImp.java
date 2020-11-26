@@ -1,7 +1,7 @@
 package com.salah.ask.service;
 
-import com.salah.ask.controller.request.AuthResponse;
-import com.salah.ask.controller.request.LoginRequest;
+import com.salah.ask.dto.AuthResponse;
+import com.salah.ask.dto.LoginRequest;
 import com.salah.ask.security.UserDetailsServiceImp;
 import com.salah.ask.security.jwt.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;

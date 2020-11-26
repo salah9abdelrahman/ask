@@ -1,7 +1,7 @@
 package com.salah.ask.service;
 
-import com.salah.ask.controller.request.AuthResponse;
-import com.salah.ask.controller.request.RegisterRequest;
+import com.salah.ask.dto.AuthResponse;
+import com.salah.ask.dto.RegisterRequest;
 
 import javax.management.relation.RoleNotFoundException;
 

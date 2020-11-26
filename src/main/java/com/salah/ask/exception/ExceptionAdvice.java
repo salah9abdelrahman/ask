@@ -2,7 +2,7 @@ package com.salah.ask.exception;
 
 import com.salah.ask.exception.custom.EntityAlreadyExists;
 import com.salah.ask.exception.custom.EntityNotFoundException;
-import com.salah.ask.exception.custom.InvalidJwtException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +20,7 @@ import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @ControllerAdvice
 public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 
@@ -82,20 +83,13 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
                 apiError, new HttpHeaders(), apiError.getStatus());
     }
 
-    @ExceptionHandler
-    public ResponseEntity<Object> handleInvalidJwtException(InvalidJwtException e){
-     ApiError apiError = new ApiError(HttpStatus.UNAUTHORIZED, e.getLocalizedMessage(),
-             "User Not Authorizedddd");
-     return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
-    }
-
 
     @ExceptionHandler({ EntityNotFoundException.class })
     public ResponseEntity<Object> handleNotFoundEntity(EntityNotFoundException ex) {
 
         ApiError apiError = new ApiError(
                 HttpStatus.NOT_FOUND, ex.getLocalizedMessage(), "Not found");
-        return new ResponseEntity<Object>(
+        return new ResponseEntity<>(
                 apiError, new HttpHeaders(), apiError.getStatus());
     }
 
@@ -103,7 +97,7 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
         ApiError apiError = new ApiError(
                 HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage(), "error occurred");
-        return new ResponseEntity<Object>(
+        return new ResponseEntity<>(
                 apiError, new HttpHeaders(), apiError.getStatus());
     }
 
@@ -111,7 +105,7 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleAlreadyExistedEntity(EntityAlreadyExists ex) {
         ApiError apiError = new ApiError(
                 HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), "already exists");
-        return new ResponseEntity<Object>(
+        return new ResponseEntity<>(
                 apiError, new HttpHeaders(), apiError.getStatus());
     }
 }

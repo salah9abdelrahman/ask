@@ -17,7 +17,7 @@ import java.util.HashSet;
 @Getter
 @Accessors(chain = true)
 @NoArgsConstructor
-@ToString
+@ToString(exclude = {"friends", "posts"})
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "`User`",

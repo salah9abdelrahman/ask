@@ -1,6 +1,6 @@
 package com.salah.ask.controller.AuthController;
 
-import com.salah.ask.controller.request.LoginRequest;
+import com.salah.ask.dto.LoginRequest;
 import com.salah.ask.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +24,7 @@ public class LoginController {
 
 
     @PostMapping
-    private ResponseEntity<?> login(@RequestBody @Valid LoginRequest loginRequest)  {
+    public ResponseEntity<?> login(@RequestBody @Valid LoginRequest loginRequest)  {
         return ResponseEntity.ok(loginService.login(loginRequest));
     }
 

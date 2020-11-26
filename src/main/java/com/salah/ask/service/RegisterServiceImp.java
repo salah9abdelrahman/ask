@@ -1,8 +1,8 @@
 package com.salah.ask.service;
 
-import com.salah.ask.controller.request.AuthResponse;
-import com.salah.ask.controller.request.LoginRequest;
-import com.salah.ask.controller.request.RegisterRequest;
+import com.salah.ask.dto.AuthResponse;
+import com.salah.ask.dto.LoginRequest;
+import com.salah.ask.dto.RegisterRequest;
 import com.salah.ask.exception.custom.EntityAlreadyExists;
 import com.salah.ask.exception.custom.EntityNotFoundException;
 import com.salah.ask.model.user.Role;
@@ -44,10 +44,7 @@ public class RegisterServiceImp implements RegisterService {
                 .setPassword(new BCryptPasswordEncoder().encode(registerRequest.getPassword()));
 
         user.addRole(role.get());
-
         userRepository.save(user);
-        System.out.println("user");
-        System.out.println(user);
 
         return loginService.login(new LoginRequest(registerRequest.getEmail(), registerRequest.getPassword()));
     }

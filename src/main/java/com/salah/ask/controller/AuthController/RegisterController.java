@@ -1,6 +1,6 @@
 package com.salah.ask.controller.AuthController;
 
-import com.salah.ask.controller.request.RegisterRequest;
+import com.salah.ask.dto.RegisterRequest;
 import com.salah.ask.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

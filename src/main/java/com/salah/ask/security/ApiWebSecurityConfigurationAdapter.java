@@ -2,6 +2,7 @@ package com.salah.ask.security;
 
 import com.salah.ask.model.user.UserRoles;
 import com.salah.ask.security.jwt.JwtRequestFilter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import javax.servlet.http.HttpServletResponse;
 
 @EnableWebSecurity
+@Slf4j
 public class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
@@ -58,7 +60,11 @@ public class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAda
                 .antMatchers("/test").hasRole(UserRoles.ROLE_REGULAR.toString().substring(5))
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
-                .authenticationEntryPoint((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+                // throw exception if not authenticated
+                .authenticationEntryPoint((req, rsp, e) -> {
+                    log.info("Not authorized user");
+                    rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                })
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
