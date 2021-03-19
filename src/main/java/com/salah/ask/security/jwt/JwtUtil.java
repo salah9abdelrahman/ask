@@ -1,7 +1,9 @@
 package com.salah.ask.security.jwt;
 
+import com.salah.ask.exception.custom.InvalidJwtException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -21,9 +23,8 @@ create new jwts & get information of jwt payload
 public class JwtUtil {
 
 
-
     //extract user name from token
-    public String   extractUsername(String token) {
+    public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -36,8 +37,15 @@ public class JwtUtil {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
+
     private Claims extractAllClaims(String token) {
-            return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+        Claims claims;
+        try {
+            claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+        } catch (MalformedJwtException e) {
+            throw new InvalidJwtException("Invalid token");
+        }
+        return claims;
     }
 
     private Boolean isTokenExpired(String token) {

@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @EnableWebSecurity
 @Slf4j
-public class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
 
@@ -26,10 +26,9 @@ public class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAda
     private final JwtRequestFilter jwtRequestFilter;
 
 
-
-    public ApiWebSecurityConfigurationAdapter(PasswordEncoder passwordEncoder,
-                                              UserDetailsServiceImp userDetailsServiceImp,
-                                              JwtRequestFilter jwtRequestFilter) {
+    public SecurityConfig(PasswordEncoder passwordEncoder,
+                          UserDetailsServiceImp userDetailsServiceImp,
+                          JwtRequestFilter jwtRequestFilter) {
         this.passwordEncoder = passwordEncoder;
         this.userDetailsServiceImp = userDetailsServiceImp;
         this.jwtRequestFilter = jwtRequestFilter;
@@ -44,7 +43,8 @@ public class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAda
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(this.userDetailsServiceImp).passwordEncoder(this.passwordEncoder);
+        auth.userDetailsService(this.userDetailsServiceImp)
+                .passwordEncoder(this.passwordEncoder);
     }
 
     @Override
@@ -55,8 +55,7 @@ public class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAda
                 .cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/register").permitAll()
+                .antMatchers("/login", "/register", "/test").permitAll()
                 .antMatchers("/dashboard/**").hasRole(adminRole())
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
@@ -71,14 +70,13 @@ public class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAda
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
 
-
     }
 
-    private String regularRole(){
-       return UserRoles.ROLE_REGULAR.name().substring(5);
+    private String regularRole() {
+        return UserRoles.ROLE_REGULAR.name().substring(5);
     }
 
-    private String adminRole(){
+    private String adminRole() {
         return UserRoles.ROLE_ADMIN.name().substring(5);
     }
 

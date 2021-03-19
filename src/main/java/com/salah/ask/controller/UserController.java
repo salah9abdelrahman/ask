@@ -2,6 +2,9 @@ package com.salah.ask.controller;
 
 import com.salah.ask.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,5 +20,9 @@ public class UserController {
     }
 
 
+    @GetMapping("/{email}")
+    public ResponseEntity<?> getUser(@PathVariable String email){
+        return ResponseEntity.ok(userService.findByEmail(email));
+    }
 
 }

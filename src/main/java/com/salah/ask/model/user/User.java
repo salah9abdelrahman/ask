@@ -2,10 +2,7 @@ package com.salah.ask.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.salah.ask.model.ask.Post;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
@@ -23,6 +20,12 @@ import java.util.HashSet;
 @Table(name = "`User`",
         indexes = @Index(name = "idx_user_email", columnList = "email", unique = true))
 public class User {
+
+    //for testing
+    public User(@NotBlank String email) {
+        this.email = email;
+    }
+
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,7 +66,6 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
     private Collection<Post> posts;
-
 
 
     public void addRole(Role role) {

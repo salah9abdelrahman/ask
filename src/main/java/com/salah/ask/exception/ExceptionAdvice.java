@@ -2,6 +2,7 @@ package com.salah.ask.exception;
 
 import com.salah.ask.exception.custom.EntityAlreadyExists;
 import com.salah.ask.exception.custom.EntityNotFoundException;
+import com.salah.ask.exception.custom.InvalidJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -30,8 +31,8 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers,
-            HttpStatus status,
-            WebRequest request) {
+                                                                  HttpStatus status,
+                                                                  WebRequest request) {
         List<String> errors = new ArrayList<String>();
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
             errors.add(error.getField() + ": " + error.getDefaultMessage());
@@ -47,11 +48,11 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object>  handleHttpRequestMethodNotSupported(
-                HttpRequestMethodNotSupportedException ex,
-     HttpHeaders headers,
-              HttpStatus status,
-               WebRequest request) {
+    protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(
+            HttpRequestMethodNotSupportedException ex,
+            HttpHeaders headers,
+            HttpStatus status,
+            WebRequest request) {
         StringBuilder builder = new StringBuilder();
         builder.append(ex.getMethod());
         builder.append(
@@ -68,7 +69,7 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
     reports the result of constraint violations
      */
 
-    @ExceptionHandler({ ConstraintViolationException.class })
+    @ExceptionHandler({ConstraintViolationException.class})
     public ResponseEntity<Object> handleConstraintViolation(
             ConstraintViolationException ex, WebRequest request) {
         List<String> errors = new ArrayList<String>();
@@ -84,7 +85,7 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
     }
 
 
-    @ExceptionHandler({ EntityNotFoundException.class })
+    @ExceptionHandler({EntityNotFoundException.class})
     public ResponseEntity<Object> handleNotFoundEntity(EntityNotFoundException ex) {
 
         ApiError apiError = new ApiError(
@@ -93,7 +94,7 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
                 apiError, new HttpHeaders(), apiError.getStatus());
     }
 
-    @ExceptionHandler({ Exception.class })
+    @ExceptionHandler({Exception.class})
     public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
         ApiError apiError = new ApiError(
                 HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage(), "error occurred");
@@ -101,10 +102,18 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
                 apiError, new HttpHeaders(), apiError.getStatus());
     }
 
-    @ExceptionHandler({ EntityAlreadyExists.class })
+    @ExceptionHandler({EntityAlreadyExists.class})
     public ResponseEntity<Object> handleAlreadyExistedEntity(EntityAlreadyExists ex) {
         ApiError apiError = new ApiError(
                 HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), "already exists");
+        return new ResponseEntity<>(
+                apiError, new HttpHeaders(), apiError.getStatus());
+    }
+
+    @ExceptionHandler({InvalidJwtException.class})
+    public ResponseEntity<Object> handleInvalidJwtException(InvalidJwtException ex) {
+        ApiError apiError = new ApiError(
+                HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), "Invalid token");
         return new ResponseEntity<>(
                 apiError, new HttpHeaders(), apiError.getStatus());
     }
