@@ -25,10 +25,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtRequestFilter jwtRequestFilter;
 
-
-    public SecurityConfig(PasswordEncoder passwordEncoder,
-                          UserDetailsServiceImp userDetailsServiceImp,
-                          JwtRequestFilter jwtRequestFilter) {
+    public SecurityConfig(PasswordEncoder passwordEncoder, UserDetailsServiceImp userDetailsServiceImp,
+            JwtRequestFilter jwtRequestFilter) {
         this.passwordEncoder = passwordEncoder;
         this.userDetailsServiceImp = userDetailsServiceImp;
         this.jwtRequestFilter = jwtRequestFilter;
@@ -40,35 +38,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-
+    // for authentication
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(this.userDetailsServiceImp)
-                .passwordEncoder(this.passwordEncoder);
+        auth.userDetailsService(this.userDetailsServiceImp).passwordEncoder(this.passwordEncoder);
     }
 
+    // securing web requests
     @Override
-    //authentication
     protected void configure(HttpSecurity http) throws Exception {
 
         http
+                // enabling cors
                 .cors().and()
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/login", "/register", "/test").permitAll()
-                .antMatchers("/dashboard/**").hasRole(adminRole())
-                .anyRequest().authenticated()
-                .and().exceptionHandling()
+                /**
+                 * authorizing requests, ROLE: Restricted roles come first
+                 */
+                .authorizeRequests().antMatchers("/admin/**").hasRole(adminRole())
+                // public urls
+                .antMatchers("/login", "/register", "/test", "/dashboard/").permitAll().anyRequest().authenticated()
+                .and().formLogin().loginPage("/index").and().exceptionHandling()
                 .authenticationEntryPoint((req, rsp, e) -> {
                     log.info("Not authorized user");
                     rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-                })
-                .and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                }).and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         // Add JWT token filter
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-
 
     }
 
@@ -81,6 +77,3 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 }
-
-
-

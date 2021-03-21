@@ -2,6 +2,7 @@ package com.salah.ask.service;
 
 import com.salah.ask.dto.AuthResponse;
 import com.salah.ask.dto.LoginRequest;
+import com.salah.ask.exception.custom.EntityNotFoundException;
 import com.salah.ask.security.UserDetailsServiceImp;
 import com.salah.ask.security.jwt.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class LoginServiceImp implements LoginService{
         try {
  authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
         } catch (BadCredentialsException e) {
-            throw new RuntimeException("Not Authenticated");
+            throw new EntityNotFoundException("User Not Found");
         }
         // Create JWT token
         final UserDetails userDetails = userDetailsServiceImp.loadUserByUsername(loginRequest.getEmail());

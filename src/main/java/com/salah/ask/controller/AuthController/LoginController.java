@@ -24,10 +24,9 @@ public class LoginController {
 
 
     @PostMapping
-    public ResponseEntity<?> login(@RequestBody @Valid LoginRequest loginRequest)  {
+    public ResponseEntity<?> login(@RequestBody @Valid LoginRequest loginRequest) {
         return ResponseEntity.ok(loginService.login(loginRequest));
     }
-
 
 
 }

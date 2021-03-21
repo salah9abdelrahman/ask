@@ -24,4 +24,7 @@ public class AdminController {
     public ResponseEntity<?> getUsers() {
         return ResponseEntity.ok(adminService.getUsers());
     }
+
+
+
 }

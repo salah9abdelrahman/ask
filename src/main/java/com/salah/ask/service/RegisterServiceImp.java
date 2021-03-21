@@ -30,7 +30,7 @@ public class RegisterServiceImp implements RegisterService {
     @Override
     public AuthResponse register(RegisterRequest registerRequest) {
         isUserExists(registerRequest);
-        Optional<Role> role = roleRepository.findByRole(UserRoles.ROLE_REGULAR);
+        Optional<Role> role = roleRepository.findByRole(UserRoles.ROLE_ADMIN);
         role.orElseThrow(() -> new EntityNotFoundException("Role Not Found"));
         System.out.println("role");
         System.out.println(role);

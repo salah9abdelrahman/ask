@@ -4,6 +4,7 @@ import com.salah.ask.dto.RegisterRequest;
 import com.salah.ask.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,7 @@ public class RegisterController {
 
     @PostMapping
     public ResponseEntity<?> register(@RequestBody @Valid RegisterRequest registerRequest) throws RoleNotFoundException {
-
+        
         return ResponseEntity.ok(registerService.register(registerRequest));
 
     }

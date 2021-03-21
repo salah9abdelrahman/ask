@@ -31,10 +31,8 @@ public class UserDetailsImp implements UserDetails {
         this.isActive = user.isActive();
         this.isEnabled = user.getIsEnabled();
         this.authorities = new ArrayList<>();
-         user.getRoles().forEach(role ->
-                 this.authorities.add(new SimpleGrantedAuthority(role.getRole().name())));
+        user.getRoles().forEach(role -> this.authorities.add(new SimpleGrantedAuthority(role.getRole().name())));
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
