@@ -9,6 +9,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Setter
 @Getter
@@ -16,15 +17,16 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @Entity
 @ToString
-@Table(name = "role")
+@Table(name = "role", indexes = {})
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Role {
+public class Role implements Serializable {
 
     @Id
     @Column(name = "role_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "role", unique = true)
     @Enumerated(EnumType.STRING)
     @NotBlank
     private UserRoles role;

@@ -7,6 +7,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -19,7 +20,7 @@ import java.util.HashSet;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "`User`",
         indexes = @Index(name = "idx_user_email", columnList = "email", unique = true))
-public class User {
+public class User implements Serializable {
 
     //for testing
     public User(@NotBlank String email) {

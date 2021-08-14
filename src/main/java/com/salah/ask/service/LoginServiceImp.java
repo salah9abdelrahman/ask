@@ -6,6 +6,7 @@ import com.salah.ask.exception.custom.EntityNotFoundException;
 import com.salah.ask.security.UserDetailsServiceImp;
 import com.salah.ask.security.jwt.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
+@Primary
 public class LoginServiceImp implements LoginService{
 
     private final AuthenticationManager authenticationManager;

@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Setter
@@ -16,7 +17,7 @@ import java.util.Date;
 @Entity
 @Table(name = "friendship")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Friendship {
+public class Friendship implements Serializable {
     @Id
     @Column(name = "friendship_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

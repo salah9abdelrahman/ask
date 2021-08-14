@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ask
+    username: postgres
+    password: 1324
+
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  mvc:
+    view:
+      prefix: /static/html
+server:
+  servlet:
+    context-path: /ask
+  port:
+    8080
+
+
+logging:
+  level:
+    root: WARN
+    org:
+      springframework:
+        secuirty: DEBUG
+      hibernate:
+        sql: DEBUG
+        type.descriptor.sql.BasicBinder: TRACE
+    com:
+      salah:
+        ask: trace
+  file:
+    path: /var/logs/
+    name: Ask.log
+

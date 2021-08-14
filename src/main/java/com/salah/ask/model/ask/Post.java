@@ -9,6 +9,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Setter
 @Getter
@@ -17,7 +18,8 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "post")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Post {
+public class Post implements Serializable {
+
     @Id
     @Column(name = "post_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
