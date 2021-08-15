@@ -9,7 +9,9 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 @Setter
 @Getter
@@ -39,6 +41,10 @@ public class Post implements Serializable {
 
     @Column(name = "is_answered")
     private boolean isAnswered;
+
+    @Past
+    @Column(name = "date")
+    private Timestamp date;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private User user;

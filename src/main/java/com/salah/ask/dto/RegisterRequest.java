@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RegisterRequest {
     @NotBlank
-    @Email
+    @Email(message = "wrong email format")
     private String email;
 
     @NotBlank

@@ -51,13 +51,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 // enabling cors
                 .cors().and()
+                .csrf().disable()
                 /**
                  * authorizing requests, ROLE: Restricted roles come first
                  */
                 .authorizeRequests().antMatchers("/admin/**").hasRole(adminRole())
                 // public urls
-                .antMatchers("/login", "/register", "/test", "/dashboard/").permitAll().anyRequest().authenticated()
-                .and().formLogin().loginPage("/index").and().exceptionHandling()
+                .antMatchers("/login/**", "/register/**", "/test/**", "/dashboard/").permitAll()
+                .anyRequest().authenticated()
+                .and().formLogin().loginPage("/index")
+                .and().exceptionHandling()
                 .authenticationEntryPoint((req, rsp, e) -> {
                     log.info("Not authorized user");
                     rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED);

@@ -1,5 +1,6 @@
 package com.salah.ask.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.salah.ask.model.ask.Post;
 import lombok.*;
@@ -38,6 +39,7 @@ public class User implements Serializable {
 
     @Column(name = "password")
     @NotBlank
+    @JsonIgnore
     private String password;
 
     @Column(name = "first_name")

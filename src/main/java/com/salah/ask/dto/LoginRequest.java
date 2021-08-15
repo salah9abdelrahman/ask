@@ -19,11 +19,11 @@ public class LoginRequest {
         this.password = password;
     }
 
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "email is required")
+    @NotEmpty(message = "email is required")
     private String email;
 
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "password is required")
+    @NotEmpty(message = "password is required")
     private String password;
 }

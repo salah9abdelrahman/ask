@@ -39,7 +39,7 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
                         errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
                 }
 
-                ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
+                ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), errors);
                 return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), request);
         }
 
