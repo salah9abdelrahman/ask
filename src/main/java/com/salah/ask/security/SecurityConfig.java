@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -25,8 +26,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtRequestFilter jwtRequestFilter;
 
+    private static final String[] AUTH_WHITELIST = {
+            // -- Swagger UI v2
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+
+            "/login/**", "/register/**", "/test/**"
+    };
+
+
     public SecurityConfig(PasswordEncoder passwordEncoder, UserDetailsServiceImp userDetailsServiceImp,
-            JwtRequestFilter jwtRequestFilter) {
+                          JwtRequestFilter jwtRequestFilter) {
         this.passwordEncoder = passwordEncoder;
         this.userDetailsServiceImp = userDetailsServiceImp;
         this.jwtRequestFilter = jwtRequestFilter;
@@ -57,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                  */
                 .authorizeRequests().antMatchers("/admin/**").hasRole(adminRole())
                 // public urls
-                .antMatchers("/login/**", "/register/**", "/test/**", "/dashboard/").permitAll()
+                .antMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/index")
                 .and().exceptionHandling()
@@ -70,6 +85,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
+
 
     private String regularRole() {
         return UserRoles.ROLE_REGULAR.name().substring(5);
