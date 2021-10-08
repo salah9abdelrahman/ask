@@ -17,7 +17,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Entity
 @ToString
-@Table(name = "role", indexes = {})
+@Table(name = "role")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Role implements Serializable {
 

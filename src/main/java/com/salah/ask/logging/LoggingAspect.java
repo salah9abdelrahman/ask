@@ -51,10 +51,12 @@ public class LoggingAspect {
         StringBuilder args = new StringBuilder("with parameters:");
         Stream.of(proceedingJoinPoint.getArgs()).forEach(args::append);
         log.info(args.toString());
-
+        long start = System.currentTimeMillis();
         final Object retVal = proceedingJoinPoint.proceed();
-
+        long executionTime = System.currentTimeMillis() - start;
         log.info("result:" + retVal);
+        System.out.println(proceedingJoinPoint.getSignature() + " executed in " + executionTime + "ms"
+                + "with result " + retVal);
 
         return retVal;
 

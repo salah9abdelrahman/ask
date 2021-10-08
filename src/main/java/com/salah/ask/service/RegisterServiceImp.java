@@ -48,7 +48,7 @@ public class RegisterServiceImp implements RegisterService {
         return loginService.login(new LoginRequest(registerRequest.getEmail(), registerRequest.getPassword()));
     }
 
-    public void isUserExists(RegisterRequest registerRequest) {
+    private void isUserExists(RegisterRequest registerRequest) {
         if (userRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
             throw new EntityAlreadyExists("User already exists");
         }
