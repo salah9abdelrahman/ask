@@ -57,6 +57,8 @@ public class User implements Serializable {
     @Column(name = "is_enabled")
     private Boolean isEnabled;
 
+    private Address address;
+
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
             fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
