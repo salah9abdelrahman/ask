@@ -40,4 +40,9 @@ public class UserController {
         throw new EntityNotFoundException(email + "not found");
     }
 
+    @GetMapping("first-cache-test/{name}")
+    public ResponseEntity<?> testFirstCacheLevel(@PathVariable String name){
+        return ResponseEntity.ok(userService.testFirstCacheLevel(name));
+    }
+
 }

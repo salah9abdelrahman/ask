@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @Getter
 public class Address {
-    //Open issue:  @NotNull  Ignored for DDL generation so we have to use @Column
+    //Open issue:  @NotNull  Ignored for DDL generation, so we have to use @Column
     @NotNull
     @Column(nullable = false)
     public String street;
