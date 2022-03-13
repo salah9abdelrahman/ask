@@ -3,12 +3,29 @@ spring:
     url: jdbc:postgresql://localhost:5432/ask
     username: postgres
     password: 1324
-
-
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+    properties:
+      javax:
+        persistence:
+          sharedCache:
+            #required - enable selective caching mode - only entities with @Cacheable annotation will use L2 cache.
+            mode: ALL
+      hibernate:
+        #optional - enable SQL statements formatting.
+        format_sql: true
+        #optional - generate statistics to check if L2/query cache is actually being used.
+        generate_statistics: true
+        cache:
+          #required - turn on L2 cache.
+          use_second_level_cache: true
+          #optional - turn on query cache.
+          use_query_cache: true
+          region:
+            #required - classpath to cache region factory.
+            factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
 
   mvc:
     view:
@@ -29,10 +46,19 @@ logging:
       hibernate:
         sql: DEBUG
         type.descriptor.sql.BasicBinder: TRACE
+        stat: DEBUG
     com:
       salah:
         ask: trace
+    net:
+      sf:
+        ehcache: DEBUG
   file:
     path: /var/logs/
     name: Ask.log
 
+#hibernate:
+#  cache:
+#    use-second-level-cache: true
+#    region:
+#      factory-class: org.hibernate.cache.ehcache.EhCacheRegionFactory

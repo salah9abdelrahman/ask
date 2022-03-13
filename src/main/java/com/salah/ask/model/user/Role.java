@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -19,6 +20,8 @@ import java.io.Serializable;
 @ToString
 @Table(name = "role")
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Role implements Serializable {
 
     @Id
