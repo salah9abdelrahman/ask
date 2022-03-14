@@ -62,3 +62,5 @@ logging:
 #    use-second-level-cache: true
 #    region:
 #      factory-class: org.hibernate.cache.ehcache.EhCacheRegionFactory
+
+base_client_url: https://jsonplaceholder.typicode.com/

@@ -51,6 +51,17 @@ class FirstSpecification extends Specification {
         list.size() == 3
     }
 
+    //where block
+    def "computing the maximum of two numbers"() {
+        expect:
+        Math.max(a, b) == c
+
+        where:
+        a << [5, 3]
+        b << [1, 9]
+        c << [5, 9]
+    }
+
     void cleanupSpec() {
         // runs once for Specification
     }
