@@ -35,7 +35,9 @@ public class WireMockFirstHead {
 
    static Options options = wireMockConfig()
             .port(8888)
+           // for debug information on console
             .notifier(new ConsoleNotifier(true))
+           // to generate dynamic responses
             .extensions(new ResponseTemplateTransformer(true));
 
     public static   WireMockServer wireMockServer = new WireMockServer(options);
@@ -75,7 +77,7 @@ public class WireMockFirstHead {
     @Test
     public void getOneTodo_success() {
         //given
-        wireMockServer.stubFor(get(urlEqualTo("/todos/1"))
+        wireMockServer.stubFor(get(urlPathMatching("/todos/[0-9]"))
                 .willReturn(aResponse()
                         .withStatus(HttpStatus.OK.value())
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -84,11 +86,34 @@ public class WireMockFirstHead {
         );
 
         //when
-        Todo todo = aRestClientService.getTodoById(1);
+        Todo todo = aRestClientService.getTodoById(1 );
 
         System.out.println(todo);
 
         //then
         Assertions.assertFalse(todo.isCompleted());
+        Assertions.assertEquals("study wireMock yo", todo.getTitle());
+    }
+
+    @Test
+    public void getOneTodo_responseTemplate_success() {
+        //given
+        wireMockServer.stubFor(get(urlPathMatching("/todos/[0-9]"))
+                .willReturn(aResponse()
+                        .withStatus(HttpStatus.OK.value())
+                        .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .withBodyFile("todo-response-template.json")
+                )
+        );
+
+        Integer todoId = 8;
+
+        //when
+        Todo todo = aRestClientService.getTodoById(todoId);
+
+        System.out.println(todo);
+
+        //then
+        Assertions.assertEquals(todoId, todo.getId());
     }
 }
