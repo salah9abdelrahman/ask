@@ -4,7 +4,9 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.common.ConsoleNotifier;
 import com.github.tomakehurst.wiremock.core.Options;
 import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer;
+import com.jayway.restassured.RestAssured;
 import com.salah.ask.model.Todo;
+import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -33,14 +35,14 @@ public class WireMockFirstHead {
     ARestClientService aRestClientService;
 
 
-   static Options options = wireMockConfig()
+    static Options options = wireMockConfig()
             .port(8888)
-           // for debug information on console
+            // for debug information on console
             .notifier(new ConsoleNotifier(true))
-           // to generate dynamic responses
+            // to generate dynamic responses
             .extensions(new ResponseTemplateTransformer(true));
 
-    public static   WireMockServer wireMockServer = new WireMockServer(options);
+    public static WireMockServer wireMockServer = new WireMockServer(options);
 
     @BeforeClass
     public static void beforeClass() throws Exception {
@@ -86,7 +88,7 @@ public class WireMockFirstHead {
         );
 
         //when
-        Todo todo = aRestClientService.getTodoById(1 );
+        Todo todo = aRestClientService.getTodoById(1);
 
         System.out.println(todo);
 
@@ -115,5 +117,31 @@ public class WireMockFirstHead {
 
         //then
         Assertions.assertEquals(todoId, todo.getId());
+    }
+
+    @Test
+    public void getOneTodo_success_using_rest_assured() {
+
+        //given
+        wireMockServer.stubFor(get(urlPathMatching("/todos/1"))
+                .willReturn(aResponse()
+                        .withStatus(HttpStatus.OK.value())
+                        .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .withBodyFile("todo.json")
+                )
+        );
+
+        RestAssured.given()
+                .baseUri("http://localhost:8888")
+                .when()
+                .get("/todos/{id}", 1)
+                .then()
+                .statusCode(200)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body("id", Matchers.equalTo(1),
+                        "userId", Matchers.equalTo(1),
+                        "title", Matchers.equalTo("study wireMock yo"),
+                        "completed", Matchers.equalTo(false)
+                );
     }
 }
