@@ -8,7 +8,6 @@ import com.jayway.restassured.RestAssured;
 import com.salah.ask.model.Todo;
 import org.hamcrest.Matchers;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.jupiter.api.*;
@@ -142,6 +141,7 @@ public class WireMockFirstHead {
                         "userId", Matchers.equalTo(1),
                         "title", Matchers.equalTo("study wireMock yo"),
                         "completed", Matchers.equalTo(false)
-                );
+                )
+                .log().all();
     }
 }
