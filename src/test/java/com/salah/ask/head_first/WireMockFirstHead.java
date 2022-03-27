@@ -1,4 +1,4 @@
-package com.salah.ask.service;
+package com.salah.ask.head_first;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.common.ConsoleNotifier;
