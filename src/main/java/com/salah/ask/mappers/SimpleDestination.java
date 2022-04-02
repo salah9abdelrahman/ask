@@ -6,4 +6,6 @@ import lombok.Data;
 public class SimpleDestination {
     private String name;
     private String description;
+    private String specialization;
+
 }

@@ -1,10 +1,13 @@
 package com.salah.ask.mappers;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-@Mapper
-public interface SimpleSourceDestinationMapper {
-    SimpleDestination sourceToDestination(SimpleSource source);
+@Mapper(componentModel = "spring")
+public abstract class SimpleSourceDestinationMapper {
 
-    SimpleSource destinationToSource(SimpleDestination destination);
+    @Mapping(source = "specialty", target = "specialization")
+    abstract SimpleDestination sourceToDestination(SimpleSource source);
+
+    abstract SimpleSource destinationToSource(SimpleDestination destination);
 }
